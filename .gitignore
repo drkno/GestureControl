@@ -1,0 +1,9 @@
+*node_modules*
+x64*
+*.db
+*.obj
+*.log
+*.pdb
+*.tlog
+*.idb
+*.lastbuildstate

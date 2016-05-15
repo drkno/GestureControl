@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Client\BackgroundSubtractor.cpp" />
+    <ClCompile Include="Client\ConvexHull.cpp" />
+    <ClCompile Include="Client\DeskControl.cpp" />
+    <ClCompile Include="Client\main.cpp" />
+    <ClCompile Include="Client\CannyEdgeTuner.cpp" />
+    <ClCompile Include="Client\FingerCounter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Client\BackgroundSubtractor.h" />
+    <ClInclude Include="Client\CannyEdgeTuner.h" />
+    <ClInclude Include="Client\ConvexHull.h" />
+    <ClInclude Include="Client\DeskControl.h" />
+    <ClInclude Include="Client\FingerCounter.h" />
+    <ClInclude Include="Client\Windows.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Server\app\gpio.js" />
+    <None Include="Server\app\main.js" />
+    <None Include="Server\app\serve.js" />
+    <None Include="Server\desk.js" />
+    <None Include="Server\package.json" />
+    <None Include="Server\www\index.html" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D1DB84E7-D718-44C9-A924-5A6706625D87}</ProjectGuid>
+    <RootNamespace>GestureControl</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(OPENCV_DIR)\..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opencv_highgui310.lib;opencv_stitching310.lib;opencv_imgcodecs310.lib;opencv_superres310.lib;opencv_imgproc310.lib;opencv_ts310.lib;opencv_calib3d310.lib;opencv_ml310.lib;opencv_video310.lib;opencv_core310.lib;opencv_objdetect310.lib;opencv_videoio310.lib;opencv_features2d310.lib;opencv_photo310.lib;opencv_videostab310.lib;opencv_flann310.lib;opencv_shape310.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OPENCV_DIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(OPENCV_DIR)\..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opencv_highgui310.lib;opencv_stitching310.lib;opencv_imgcodecs310.lib;opencv_superres310.lib;opencv_imgproc310.lib;opencv_ts310.lib;opencv_calib3d310.lib;opencv_ml310.lib;opencv_video310.lib;opencv_core310.lib;opencv_objdetect310.lib;opencv_videoio310.lib;opencv_features2d310.lib;opencv_photo310.lib;opencv_videostab310.lib;opencv_flann310.lib;opencv_shape310.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OPENCV_DIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\cpprestsdk.v120.winapp.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winapp.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\cpprestsdk.v120.winapp.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winapp.msvcstl.dyn.rt-dyn.targets')" />
+    <Import Project="..\packages\cpprestsdk.v120.windesktop.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.windesktop.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\cpprestsdk.v120.windesktop.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.windesktop.msvcstl.dyn.rt-dyn.targets')" />
+    <Import Project="..\packages\cpprestsdk.v120.winphone.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winphone.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\cpprestsdk.v120.winphone.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winphone.msvcstl.dyn.rt-dyn.targets')" />
+    <Import Project="..\packages\cpprestsdk.v120.winphonesl.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winphonesl.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\cpprestsdk.v120.winphonesl.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winphonesl.msvcstl.dyn.rt-dyn.targets')" />
+    <Import Project="..\packages\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.targets')" />
+    <Import Project="..\packages\cpprestsdk.v140.winapp.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v140.winapp.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\cpprestsdk.v140.winapp.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v140.winapp.msvcstl.dyn.rt-dyn.targets')" />
+    <Import Project="..\packages\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.targets" Condition="Exists('..\packages\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\cpprestsdk.v120.winapp.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winapp.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cpprestsdk.v120.winapp.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winapp.msvcstl.dyn.rt-dyn.targets'))" />
+    <Error Condition="!Exists('..\packages\cpprestsdk.v120.windesktop.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.windesktop.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cpprestsdk.v120.windesktop.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.windesktop.msvcstl.dyn.rt-dyn.targets'))" />
+    <Error Condition="!Exists('..\packages\cpprestsdk.v120.winphone.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winphone.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cpprestsdk.v120.winphone.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winphone.msvcstl.dyn.rt-dyn.targets'))" />
+    <Error Condition="!Exists('..\packages\cpprestsdk.v120.winphonesl.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winphonesl.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cpprestsdk.v120.winphonesl.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winphonesl.msvcstl.dyn.rt-dyn.targets'))" />
+    <Error Condition="!Exists('..\packages\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v120.winxp.msvcstl.dyn.rt-dyn.targets'))" />
+    <Error Condition="!Exists('..\packages\cpprestsdk.v140.winapp.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v140.winapp.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cpprestsdk.v140.winapp.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v140.winapp.msvcstl.dyn.rt-dyn.targets'))" />
+    <Error Condition="!Exists('..\packages\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.2.8.0\build\native\cpprestsdk.v140.windesktop.msvcstl.dyn.rt-dyn.targets'))" />
+  </Target>
+</Project>
