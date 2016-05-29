@@ -7,3 +7,5 @@ x64*
 *.tlog
 *.idb
 *.lastbuildstate
+*.vs
+*.opendb

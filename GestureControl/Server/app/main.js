@@ -5,7 +5,7 @@ var Serve = require('./serve.js'),
 
 var logRequest = function(ip, action) {
 	dns.reverse(ip, function (err, domains) {
-		if (err || domains.length == 0) {
+		if (err || domains.length === 0) {
 			console.log(ip + ': ' + action);
 		}
 		else {

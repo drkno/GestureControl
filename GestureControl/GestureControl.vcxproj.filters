@@ -53,6 +53,9 @@
     <ClInclude Include="Client\Windows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Client\cp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

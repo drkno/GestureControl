@@ -2,36 +2,50 @@
 
 void FingerCounter::apply(const vector<int>& hull, const vector<Point_<int>>& contour)
 {
-	vector<Vec4i> defects;
-	convexityDefects(contour, hull, defects);
+	try {
+		defects = vector<Vec4i>();
+		convexityDefects(contour, hull, defects);
 
-	Point center;
-	for (auto i = 0; i < contour.size(); i++)
-	{
-		center.x += contour[i].x;
-		center.y += contour[i].y;
+		Point center;
+		for (auto i = 0; i < contour.size(); i++)
+		{
+			center.x += contour[i].x;
+			center.y += contour[i].y;
+		}
+		center.x /= contour.size();
+		center.y /= contour.size();
+
+		averageAngle = 0;
+		numFingers = 0;
+		for (auto i = 0; i < defects.size(); i++) {
+			auto defect = defects[i];
+			auto startPoint = contour[defect[0]];
+			auto endPoint = contour[defect[1]];
+			auto farPoint = contour[defect[2]];
+
+			auto a = sqrt(pow(endPoint.x - startPoint.x, 2) + pow(endPoint.y - startPoint.y, 2));
+			auto b = sqrt(pow(farPoint.x - startPoint.x, 2) + pow(farPoint.y - startPoint.y, 2));
+			auto c = sqrt(pow(endPoint.x - farPoint.x, 2) + pow(endPoint.y - farPoint.y, 2));
+			auto angle = acos((pow(b, 2) + pow(c, 2) - pow(a, 2)) / (2 * b * c)) * 57;
+			if (angle <= 90) {
+				numFingers += 1;
+				averageAngle += (angleBetween(center, startPoint) + angleBetween(center, endPoint)) / 2;
+			}
+		}
+		averageAngle /= numFingers;
 	}
-	center.x /= contour.size();
-	center.y /= contour.size();
-
-	averageAngle = 0;
-	numFingers = 0;
-	for (auto i = 0; i < defects.size(); i++) {
-		auto defect = defects[i];
-		auto startPoint = contour[defect[0]];
-		auto endPoint = contour[defect[1]];
-		auto farPoint = contour[defect[2]];
-
-		auto a = sqrt(pow(endPoint.x - startPoint.x, 2) + pow(endPoint.y - startPoint.y, 2));
-		auto b = sqrt(pow(farPoint.x - startPoint.x, 2) + pow(farPoint.y - startPoint.y, 2));
-		auto c = sqrt(pow(endPoint.x - farPoint.x, 2) + pow(endPoint.y - farPoint.y, 2));
-		auto angle = acos((pow(b, 2) + pow(c, 2) - pow(a, 2)) / (2 * b * c)) * 57;
-		if (angle <= 90) {
-			numFingers += 1;
-			averageAngle += (angleBetween(center, startPoint) + angleBetween(center, endPoint)) / 2;
+	catch(Exception e)
+	{
+		// not enough information to get convexity defects from... ignore
+		if (e.msg.find("convexityDefects") != string::npos)
+		{
+			numFingers = 0;
+		}
+		else
+		{
+			throw e;
 		}
 	}
-	averageAngle /= numFingers;
 }
 
 HandOrientation FingerCounter::getOrientation() const

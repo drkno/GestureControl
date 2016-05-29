@@ -2,46 +2,81 @@
 #include "ConvexHull.h"
 #include "DeskControl.h"
 #include "FingerCounter.h"
+#include "BackgroundSubtractor.h"
+#include "Windows.h"
+#include "cp.h"
 
 using namespace std;
 using namespace cv;
 
+int handleError(int,const char*,const char*,const char*,int,void*)
+{
+	return 0;
+}
+
 int main(int argc, char** argv)
 {
+	cout << "###############################################\n"
+		<< "#                                             #\n"
+		<< "#           Gesture Control Client            #\n"
+		<< "#  <https://github.com/mrkno/GestureControl>  #\n"
+		<< "#                                             #\n"
+		<< "###############################################"
+		<< endl
+		<< "Image Search Directory:" << endl << getWorkingDirectory() << endl;
+
+	// we will catch the exceptions, this will prevent logging to stderr
+	redirectError(handleError);
+
 	try {
 		DeskControl control;
 		VideoCapture cap;
 		Mat src;
 
-		auto input = 5;
+start:
+		auto input = 0;
 		switch (input)
 		{
-		default:
-		case 0: {
-			cap = VideoCapture(0);
-			cap >> src;
-			break;
-		}
-		case 1: {
-			src = imread("C:\\Users\\Matthew\\Desktop\\test.jpg");
-			break;
-		}
-		case 2: {
-			src = imread("C:\\Users\\Matthew\\Desktop\\untitled.jpg");
-			break;
-		}
-		case 3: {
-			src = imread("C:\\Users\\Matthew\\Documents\\University\\S1 COSC428 Computer Vision\\Untitled.jpg");
-			break;
-		}
-		case 4: {
-			src = imread("C:\\Users\\Matthew\\Documents\\University\\S1 COSC428 Computer Vision\\Untitled_Down.jpg");
-			break;
-		}
-		case 5: {
-			src = imread("C:\\Users\\Matthew\\Documents\\University\\S1 COSC428 Computer Vision\\Untitled_Up.jpg");
-			break;
-		}
+			default:
+			case 0: {
+				cap = VideoCapture(0);
+				cap >> src;
+				break;
+			}
+			case 1: {
+				cap = VideoCapture("3down.mp4");
+				cap >> src;
+				break;
+			}
+			case 2: {
+				cap = VideoCapture("5up.mp4");
+				cap >> src;
+				break;
+			}
+			case 3: {
+				src = imread("Images\\1.jpg");
+				break;
+			}
+			case 4: {
+				src = imread("Images\\2.jpg");
+				break;
+			}
+			case 5: {
+				src = imread("Images\\3.jpg");
+				break;
+			}
+			case 6: {
+				src = imread("Images\\4.jpg");
+				break;
+			}
+			case 7: {
+				src = imread("Images\\5.jpg");
+				break;
+			}
+			case 8: {
+				src = imread("Images\\6.jpg");
+				break;
+			}
 		}
 
 		namedWindow("Input", WINDOW_AUTOSIZE);
@@ -50,11 +85,24 @@ int main(int argc, char** argv)
 		CannyEdgeTuner edgeTuner(src.size(), src.type());
 		ConvexHull convxHull;
 		FingerCounter fingerCounter;
+		BackgroundRemover remover;
 
-		while (waitKey(10) == -1)
+		while (waitKey(50) == -1)
 		{
+			// convert to HSV colour space
 			Mat hsv;
 			cvtColor(src, hsv, CV_RGB2HSV);
+
+			/*
+			// Enable only on live camera feed
+			if (!remover.apply(src))
+			{
+				cout << "Still learning background..." << endl;
+				continue;
+			}
+
+			edgeTuner.apply(remover.getBackgroundSubtraction());
+			*/
 
 			edgeTuner.apply(src);
 			auto edges = edgeTuner.getEdges();
@@ -73,8 +121,8 @@ int main(int argc, char** argv)
 
 				auto pose = fingerCounter.getOrientation();
 				auto fingers = fingerCounter.getNumberOfFingers();
-				cout << fingers << endl;
-				cout << (pose == Up ? "Up" : "Down") << endl;
+				cout << "Fingers: " << fingers << endl;
+				cout << "Pose:    " << (pose == Up ? "Up" : "Down") << endl;
 				if (fingers <= 0 || fingers > 5)
 				{
 					control.abort();
@@ -87,23 +135,30 @@ int main(int argc, char** argv)
 				{
 					control.down(fingers);
 				}
+				cout << "-----" << endl;
 
-				imshow("test", frame2);
+				imshowext("test", frame2);
 			}
 			else
 			{
-				imshow("test", src);
+				imshowext("test", src);
 			}
 
-			imshow("Input", hsv);
-			if (input == 0) {
+			imshowext("Input", hsv);
+			if (input <= 2) {
 				cap >> src;
+				if (src.empty())
+				{
+					goto start; // nasty workaround for testing videos
+				}
 			}
 		}
 	}
 	catch(Exception exception)
 	{
+		// error was unexpected
 		cout << exception.msg << endl;
+		pause();
 	}
 	return 0;
 }

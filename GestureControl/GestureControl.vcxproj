@@ -22,6 +22,7 @@
     <ClInclude Include="Client\BackgroundSubtractor.h" />
     <ClInclude Include="Client\CannyEdgeTuner.h" />
     <ClInclude Include="Client\ConvexHull.h" />
+    <ClInclude Include="Client\cp.h" />
     <ClInclude Include="Client\DeskControl.h" />
     <ClInclude Include="Client\FingerCounter.h" />
     <ClInclude Include="Client\Windows.h" />

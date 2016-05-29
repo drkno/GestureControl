@@ -15,7 +15,7 @@ void CannyEdgeTuner::apply(Mat src)
 	Canny(detected, detected, lowerBound, lowerBound*ratio, kernel);
 	edges = Scalar::all(0);
 	src.copyTo(edges, detected);
-	imshow(windowName, edges);
+	imshowext(windowName, edges);
 }
 
 int CannyEdgeTuner::getUpperBound() const

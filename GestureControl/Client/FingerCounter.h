@@ -26,6 +26,7 @@ private:
 	float averageAngle = 0.0;
 	int numFingers = 0;
 	Point currCenter, currv1, currv2;
+	vector<Vec4i> defects;
 
 	static float distanceBetween(Point x, Point y);
 	float angleBetween(const Point& oldv1, const Point& oldv2);

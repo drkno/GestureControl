@@ -38,13 +38,7 @@ var GpioManager = module.exports = function() {
 };
 
 GpioManager.prototype.up = function(timeout) {
-	if (currTimeout && currTimeout != null) {
-		clearTimeout(currTimeout);
-		currTimeout = null;
-		for (var i = 0; i < ports.length; i++) {
-            GPIO.output(ports[i], GPIO.HIGH);
-        }
-	}
+    this.abort();
 
 	for (var i = ports.length-1; i >= 0; i--) {
          GPIO.output(ports[i], GPIO.LOW);
@@ -59,13 +53,7 @@ GpioManager.prototype.up = function(timeout) {
 };
 
 GpioManager.prototype.down = function(timeout) {
-    if (currTimeout && currTimeout != null) {
-        clearTimeout(currTimeout);
-        currTimeout = null;
-		for (var i = 0; i < ports.length; i++) {
-            GPIO.output(ports[i], GPIO.HIGH);
-        }
-    }
+    this.abort();
 
 	for (var i = ports.length/2-1; i >= 0; i--) {
 		GPIO.output(ports[i], GPIO.LOW);
@@ -83,11 +71,11 @@ GpioManager.prototype.abort = function() {
     if (currTimeout && currTimeout != null) {
         clearTimeout(currTimeout);
         currTimeout = null;
-    }
 
-	for (var i = 0; i < ports.length; i++) {
-		GPIO.output(ports[i], GPIO.HIGH);
-	}
+        for (var i = 0; i < ports.length; i++) {
+            GPIO.output(ports[i], GPIO.HIGH);
+        }
+    }
 };
 
 GpioManager.prototype.cleanup = function() {

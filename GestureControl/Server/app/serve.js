@@ -18,7 +18,7 @@ var Serve = module.exports = function(port) {
       res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
       res.header('Expires', '-1');
       res.header('Pragma', 'no-cache');
-      res.header("X-Powered-By", "Knox Enterprises");
+      res.header("X-Powered-By", "Knoxius Servius");
       res.header("Access-Control-Allow-Origin", "*");
       res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
@@ -74,4 +74,3 @@ Serve.prototype.apiPost = function (api, func) {
 Serve.prototype.start = function () {
   this.server.listen(this.serverPort);
 };
-

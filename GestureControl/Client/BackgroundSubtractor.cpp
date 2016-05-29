@@ -1,12 +1,34 @@
 #include "BackgroundSubtractor.h"
 
-
-
-BackgroundSubtractor::BackgroundSubtractor()
+BackgroundRemover::BackgroundRemover()
 {
+	bg = createBackgroundSubtractorMOG2();
+	counter = 100;
 }
 
 
-BackgroundSubtractor::~BackgroundSubtractor()
+BackgroundRemover::~BackgroundRemover()
 {
+	bg.release();
+}
+
+bool BackgroundRemover::apply(Mat image)
+{
+	if (counter > 0)
+	{
+		Mat mask;
+		bg->apply(image, mask);
+		counter--;
+		return false;
+	}
+
+	Mat background;
+	bg->apply(image, currentBackgroundSubtraction);
+
+	return true;
+}
+
+Mat BackgroundRemover::getBackgroundSubtraction() const
+{
+	return this->currentBackgroundSubtraction;
 }

@@ -1,18 +1,31 @@
 #pragma once
 
-#include <hash_map>
+#include <opencv2/highgui/highgui.hpp>
+#include <unordered_map>
 #include <string>
 
-class WindowManager
-{
-public:
-	void imshow_ext(const char * windowName, void* image)
-	{
-		if (_windows.)
-	}
+using namespace std;
+using namespace cv;
 
-private:
-	std::hash_map<std::string> _windows;
-};
-
-WindowManager windowManager;
+#define imshowext imshow
+//
+//unordered_map<string, bool> _windows;
+//
+//inline void setWindowIsVisible(string windowName, bool isVisible)
+//{
+//	_windows[windowName] = isVisible;
+//}
+//
+//inline void imshow_ext(string windowName, InputArray image)
+//{
+//	unordered_map<string, bool>::const_iterator f = _windows.find(windowName);
+//	if (f == _windows.end())
+//	{
+//		_windows[windowName] = true;
+//	}
+//	else if (!f->second)
+//	{
+//		return;
+//	}
+//	imshow(windowName, image);
+//}

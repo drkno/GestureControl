@@ -3,6 +3,7 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <vector>
+#include "Windows.h"
 
 #define CONVEX_HULL_DRAW_HULLS 1
 #define CONVEX_HULL_DRAW_CONTOURS 2
@@ -23,6 +24,8 @@ public:
 	~ConvexHull();
 
 private:
+	double distanceBetween(Point, Point) const;
+
 	const char * windowName = "Hull";
 	RNG rng = RNG(12345);
 	vector<vector<Point>> contours;
