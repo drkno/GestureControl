@@ -36,5 +36,6 @@ void DeskControl::abort() const
 
 DeskControl::~DeskControl()
 {
+	abort();
 	delete client;
 }
