@@ -1,6 +1,7 @@
 # Standing Desk Gesture Control
 
-|-:|-|
+|Item      |Value       |
+|---------:|------------|
 |Date      | 2016-06-03 |
 |Author    |Matthew Knox|
 |Student ID|  81118603  |
