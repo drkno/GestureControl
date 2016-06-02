@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Desk Control Testing Page</title>
+</head>
+<body>
+<script>
+    
+    function sendPost(direction) {
+        var data = { timeout: document.getElementById('thing').value };
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "/api/" + direction, true);
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify(data));
+    }
+
+    function up() {
+        sendPost('up');
+    }
+
+    function down() {
+        sendPost('down');
+    }
+
+    function abort() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/api/abort", true);
+        xhttp.send();
+    }
+
+</script>
+    <input type="text" placeholder="timeout" id="thing">
+    <input type="button" onclick="up();" value="Up">
+    <input type="button" onclick="down();" value="Down">
+    <input type="button" onclick="abort();" value="Abort">
+</body>
+</html>

@@ -1,5 +1,11 @@
 #pragma once
 
+/*
+	Cross Platform pause function
+	Copyright (c) Matthew Knox 2005.
+	Last updated: 02/06/2016
+*/
+
 #ifndef _WIN32
 #include <termios.h>
 #include <unistd.h>

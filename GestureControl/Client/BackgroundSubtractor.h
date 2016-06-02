@@ -6,10 +6,10 @@ using namespace cv;
 class BackgroundRemover
 {
 public:
-	BackgroundRemover();
+	BackgroundRemover(int=100);
 	~BackgroundRemover();
 
-	bool apply(Mat image);
+	bool apply(Mat);
 	Mat getBackgroundSubtraction() const;
 
 private:

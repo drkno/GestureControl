@@ -4,11 +4,19 @@ using namespace std;
 
 DeskControl::DeskControl()
 {
-	client = new http_client(U("http://harest.makereti.co.nz:9834/"));
+	try {
+		client = new http_client(U("http://harest.makereti.co.nz:9951/")); // connect to desk
+	}
+	catch (...)
+	{
+		cout << "The program will crash now. Did you forget to start the server first?" << endl;
+		throw;
+	}
 }
 
 void DeskControl::sendCommand(method method, uri location, string data) const
 {
+	// send a command to the desk. construct json and post
 	http_request request(method);
 	request.set_request_uri(location);
 	request.set_body(data);

@@ -4,10 +4,10 @@ void FingerCounter::apply(const vector<int>& hull, const vector<Point_<int>>& co
 {
 	try {
 		defects = vector<Vec4i>();
-		convexityDefects(contour, hull, defects);
+		convexityDefects(contour, hull, defects);	// get convexity defects of convex hull
 
 		Point center;
-		for (auto i = 0; i < contour.size(); i++)
+		for (auto i = 0; i < contour.size(); i++) // work out average center position
 		{
 			center.x += contour[i].x;
 			center.y += contour[i].y;
@@ -24,15 +24,15 @@ void FingerCounter::apply(const vector<int>& hull, const vector<Point_<int>>& co
 			auto farPoint = contour[defect[2]];
 
 			auto a = sqrt(pow(endPoint.x - startPoint.x, 2) + pow(endPoint.y - startPoint.y, 2));
-			auto b = sqrt(pow(farPoint.x - startPoint.x, 2) + pow(farPoint.y - startPoint.y, 2));
+			auto b = sqrt(pow(farPoint.x - startPoint.x, 2) + pow(farPoint.y - startPoint.y, 2));	// calculate defect triangle
 			auto c = sqrt(pow(endPoint.x - farPoint.x, 2) + pow(endPoint.y - farPoint.y, 2));
-			auto angle = acos((pow(b, 2) + pow(c, 2) - pow(a, 2)) / (2 * b * c)) * 57;
+			auto angle = acos((pow(b, 2) + pow(c, 2) - pow(a, 2)) / (2 * b * c)) * 57;				// calculate defect angle from triangle
 			if (angle <= 90) {
 				numFingers += 1;
 				averageAngle += (angleBetween(center, startPoint) + angleBetween(center, endPoint)) / 2;
 			}
 		}
-		averageAngle /= numFingers;
+		averageAngle /= numFingers;		// average angle represents pose
 	}
 	catch(Exception e)
 	{
@@ -70,7 +70,7 @@ void FingerCounter::drawPoseAngle(Mat image) const
 	line(image, currv1, currv2, Scalar(0, 0, 255));
 }
 
-float FingerCounter::angleBetween(const Point &center, const Point &oldv2)
+float FingerCounter::angleBetween(const Point &center, const Point &oldv2)	// angle between two points
 {
 	currCenter = center;
 	currv1 = Point(0, center.y);

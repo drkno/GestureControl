@@ -1,9 +1,9 @@
 #include "BackgroundSubtractor.h"
 
-BackgroundRemover::BackgroundRemover()
+BackgroundRemover::BackgroundRemover(int learnFrames)
 {
-	bg = createBackgroundSubtractorMOG2();
-	counter = 100;
+	bg = createBackgroundSubtractorMOG2();	// gaussian background learner
+	counter = learnFrames;	// number of frames to learn for
 }
 
 
@@ -17,13 +17,13 @@ bool BackgroundRemover::apply(Mat image)
 	if (counter > 0)
 	{
 		Mat mask;
-		bg->apply(image, mask);
+		bg->apply(image, mask);	// learn the background
 		counter--;
 		return false;
 	}
 
 	Mat background;
-	bg->apply(image, currentBackgroundSubtraction);
+	bg->apply(image, currentBackgroundSubtraction);	// get a difference image/mask
 
 	return true;
 }

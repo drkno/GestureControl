@@ -11,6 +11,7 @@ using namespace cv;
 
 int handleError(int,const char*,const char*,const char*,int,void*)
 {
+	// noop stderr handler
 	return 0;
 }
 
@@ -34,11 +35,11 @@ int main(int argc, char** argv)
 		Mat src;
 
 start:
-		auto input = 0;
+		auto input = 1;
 		switch (input)
 		{
 			default:
-			case 0: {
+			case 0: { // live video
 				cap = VideoCapture(0);
 				cap >> src;
 				break;
@@ -91,11 +92,11 @@ start:
 		{
 			// convert to HSV colour space
 			Mat hsv;
-			cvtColor(src, hsv, CV_RGB2HSV);
+			cvtColor(src, hsv, CV_RGB2HSV); // convert image to hsv colour space
 
 			/*
-			// Enable only on live camera feed
-			if (!remover.apply(src))
+			// Background subtraction. Enable *ONLY* on live camera feed
+			if (!remover.apply(hsv))
 			{
 				cout << "Still learning background..." << endl;
 				continue;
@@ -105,27 +106,31 @@ start:
 			*/
 
 			edgeTuner.apply(src);
-			auto edges = edgeTuner.getEdges();
+			auto edges = edgeTuner.getEdges();	// canny edge tuner
 			convxHull.apply(edges);
 
 			if (convxHull.hasHull()) {
+				// get convex hull and contours
 				auto hull = convxHull.getLargestHullPoints();
 				auto contour = convxHull.getLargestHullContour();
 
 				Mat frame2;
 				src.copyTo(frame2);
 
+				/*
+					Get estimated number of of fingers and estimated pose.
+					Pass number of fingers as time and pose as direction to the desk control rest service.
+				*/
 				fingerCounter.apply(hull, contour);
-
 				fingerCounter.drawPoseAngle(frame2);
-
 				auto pose = fingerCounter.getOrientation();
 				auto fingers = fingerCounter.getNumberOfFingers();
+
 				cout << "Fingers: " << fingers << endl;
 				cout << "Pose:    " << (pose == Up ? "Up" : "Down") << endl;
 				if (fingers <= 0 || fingers > 5)
 				{
-					control.abort();
+					control.abort(); // no or invalid number of fingers? abort
 				}
 				else if (pose == Up)
 				{

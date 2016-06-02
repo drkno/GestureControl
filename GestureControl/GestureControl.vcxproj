@@ -28,12 +28,6 @@
     <ClInclude Include="Client\Windows.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Server\app\gpio.js" />
-    <None Include="Server\app\main.js" />
-    <None Include="Server\app\serve.js" />
-    <None Include="Server\desk.js" />
-    <None Include="Server\package.json" />
-    <None Include="Server\www\index.html" />
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

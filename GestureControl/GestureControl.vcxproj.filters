@@ -59,11 +59,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Server\app\gpio.js" />
-    <None Include="Server\app\main.js" />
-    <None Include="Server\app\serve.js" />
-    <None Include="Server\www\index.html" />
-    <None Include="Server\desk.js" />
-    <None Include="Server\package.json" />
   </ItemGroup>
 </Project>

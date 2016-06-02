@@ -7,6 +7,7 @@
 using namespace std;
 using namespace cv;
 
+// here so that if time is avalible a window manager could be created
 #define imshowext imshow
 //
 //unordered_map<string, bool> _windows;

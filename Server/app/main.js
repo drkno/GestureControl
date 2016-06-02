@@ -3,7 +3,7 @@ var Serve = require('./serve.js'),
 	manager = null,
 	dns = require('dns');
 
-var logRequest = function(ip, action) {
+var logRequest = function(ip, action) {             // audit desk move requests so that we can ban abusers
 	dns.reverse(ip, function (err, domains) {
 		if (err || domains.length === 0) {
 			console.log(ip + ': ' + action);
@@ -28,21 +28,21 @@ exports.run = function(config) {
 		res.contentType("application/json");
 		try {
 			var json = req.body;
-			if (!json.timeout || json.timeout > 20) {
-				json.timeout = 20;
+			if (!json.timeout || json.timeout > 20) {       // get time desk should move for.
+				json.timeout = 20;                          // 20 seconds is the longest allowed for up
 			}
 			if (json.timeout < 0) {
 				json.timeout = 0;
 			}
 			
-			logRequest(req.ip, 'up ' + json.timeout);
+			logRequest(req.ip, 'up ' + json.timeout);       // desk move auditing
 			manager.up(json.timeout);
-			res.send('{"complete":true}');
+			res.send('{"complete":true}');  // report success
 
 		}
 		catch(e) {
 			console.log(e.stack);
-			res.status(400).send('{"complete":false}');
+			res.status(400).send('{"complete":false}'); // report failure
 		}
 	});
 
@@ -50,21 +50,21 @@ exports.run = function(config) {
         res.contentType("application/json");
         try {
             var json = req.body;
-            if (!json.timeout || json.timeout > 14) {
-                json.timeout = 14;
+            if (!json.timeout || json.timeout > 14) {   // get time desk should move for.
+                json.timeout = 14;                      // 14 seconds is the longest for down
             }
             if (json.timeout < 0) {
                 json.timeout = 0;
             }
 			
-            logRequest(req.ip, 'down ' + json.timeout);
+            logRequest(req.ip, 'down ' + json.timeout);       // desk move auditing
             manager.down(json.timeout);
-            res.send('{"complete":true}');
+            res.send('{"complete":true}'); // report success
 
         }
         catch(e) {
             console.log(e.stack);
-            res.status(400).send('{"complete":false}');
+            res.status(400).send('{"complete":false}'); // report failure
         }
      });
 

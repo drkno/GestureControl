@@ -1,3 +1,7 @@
+/**
+ * Light weight, generic express.js webserver.
+ */
+
 var express = require('express'),
 	fs = require('fs'),
 	bodyParser = require('body-parser'),

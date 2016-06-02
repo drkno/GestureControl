@@ -9,12 +9,14 @@ void ConvexHull::apply(Mat img)
 {
 	Mat closing;
 	Mat structuringElement = getStructuringElement(MORPH_ELLIPSE, Size(25, 25));
-	morphologyEx(img, closing, MORPH_CLOSE, structuringElement);
+	morphologyEx(img, closing, MORPH_CLOSE, structuringElement); // erode image to join gaps in contours
 
+	// get contours
 	vector<Vec4i> hierarchy;
 	contours.clear();
 	findContours(closing, contours, hierarchy, CV_RETR_EXTERNAL, CHAIN_APPROX_NONE, Point(0, 0));
 
+	// find contour with largest area
 	auto largestArea = 0.0;
 	largest = -1;
 	for (auto i = 0; i < contours.size(); i++) {
@@ -28,7 +30,7 @@ void ConvexHull::apply(Mat img)
 	Mat drawing = Mat::zeros(img.size(), CV_8UC3);
 	if (contours.size() > 0 && hasHull() && contours[largest].size() > 1) {
 		hull.clear();
-		convexHull(contours[largest], hull, false, false);
+		convexHull(contours[largest], hull, false, false); // create a convex hull of points on the largest contour
 
 		auto s = -1;
 		for (auto i = 0; i < hull.size(); i++)
@@ -44,7 +46,7 @@ void ConvexHull::apply(Mat img)
 			}
 		}
 
-		// Remove points on the curved ends of fingers
+		// Remove points on the curved ends of fingers. Only needed for low resolution cameras or close ups
 		if (s != -1)
 		{
 			vector<int> newHull;
@@ -74,6 +76,7 @@ void ConvexHull::apply(Mat img)
 			hull = newHull;
 		}
 
+		// draw circles on fingers
 		if (drawMode & CONVEX_HULL_DRAW_SELECTED) {
 			drawContours(drawing, contours, largest, Scalar(255, 255, 255));
 			for (auto i = 0; i < hull.size(); i++)
@@ -85,6 +88,7 @@ void ConvexHull::apply(Mat img)
 		}
 	}
 
+	// draw the convex hull on the image
 	if (drawMode & CONVEX_HULL_DRAW_CONTOURS || drawMode & CONVEX_HULL_DRAW_HULLS) {
 		for (auto i = 0; i < contours.size(); i++)
 		{
